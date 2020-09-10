@@ -1,0 +1,17 @@
+{
+  "name": "tulip-client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "googleapis": "^59.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
