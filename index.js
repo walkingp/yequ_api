@@ -41,6 +41,7 @@ function fetchContent(url) {
         var $ = cheerio.load(data);
         console.log("done");
         const html = $("#img-content").html();
+        console.log(data);
         resolve(html);
       } else {
         resolve("");
@@ -51,7 +52,7 @@ function fetchContent(url) {
 
 async function loadWX() {
   const indexPath = path.resolve(`./_blogs/wechat_url.txt`);
-  const urls = fs.readFileSync(indexPath, "utf-8").split("\n");
+  const urls = fs.readFileSync(indexPath, "utf-8").split("\r\n");
   console.log(urls);
   const promises = urls.map((url) => {
     return fetchContent(url);
@@ -81,9 +82,7 @@ app.get("/blogs", async (req, res) => {
       list.push(blog);
     });
 
-  const wxs = await loadWX();
-  console.log(wxs);
-  res.send(wxs);
+  res.send(list);
 });
 
 // GET /oauthcallback?code={authorizationCode}
