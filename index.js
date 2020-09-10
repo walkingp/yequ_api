@@ -4,6 +4,10 @@ const ClientId = "159894829619272";
 const ClientSecret = "R6wl7XZcQbNn2bsNt5FlChi61cLvXchA";
 const redirectionUrl = "https://api.luwan.club";
 
+const fs = require("fs");
+const path = require("path");
+const { file } = require("googleapis/build/src/apis/file");
+
 //starting the express app
 var app = express();
 
@@ -22,6 +26,29 @@ app.get("/", function (req, res) {
   res.send(
     `<h1>Authentication using google oAuth</h1><a href=${url}>Login</a>`
   );
+});
+
+const blogPath = path.resolve("./_blogs");
+
+app.get("/blogs", (req, res) => {
+  const files = fs.readdirSync(blogPath);
+  const list = [];
+  files.forEach((file, index) => {
+    const filePath = path.resolve(`./_blogs/${file}`);
+    const content = fs.readFileSync(filePath, "utf-8");
+    const date = file.match(/(\d+?-\d+?-\d+?)-(.+?)$/);
+    const blog = {
+      id: index,
+      title:
+        date.length && date[1]
+          ? date[1]
+          : file.substring(file.lastIndexOf(".")),
+      date: date.length && date[2] ? date[2] : "null",
+      content,
+    };
+    list.push(blog);
+  });
+  res.send(list);
 });
 
 // GET /oauthcallback?code={authorizationCode}
