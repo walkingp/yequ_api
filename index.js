@@ -30,25 +30,60 @@ app.get("/", function (req, res) {
 
 const blogPath = path.resolve("./_blogs");
 
-app.get("/blogs", (req, res) => {
+var cheerio = require("cheerio");
+var curl = require("./curl");
+const { html } = require("cheerio");
+
+function fetchContent(url) {
+  return new Promise((resolve, reject) => {
+    curl.download(url, function (data) {
+      if (data) {
+        var $ = cheerio.load(data);
+        console.log("done");
+        const html = $("#img-content").html();
+        resolve(html);
+      } else {
+        resolve("");
+      }
+    });
+  });
+}
+
+async function loadWX() {
+  const indexPath = path.resolve(`./_blogs/wechat_url.txt`);
+  const urls = fs.readFileSync(indexPath, "utf-8").split("\n");
+  console.log(urls);
+  const promises = urls.map((url) => {
+    return fetchContent(url);
+  });
+  const data = await Promise.all(promises);
+  return data;
+}
+
+app.get("/blogs", async (req, res) => {
   const files = fs.readdirSync(blogPath);
   const list = [];
-  files.forEach((file, index) => {
-    const filePath = path.resolve(`./_blogs/${file}`);
-    const content = fs.readFileSync(filePath, "utf-8");
-    const date = file.match(/(\d+?-\d+?-\d+?)-(.+?)$/);
-    const blog = {
-      id: index,
-      title:
-        date.length && date[1]
-          ? date[1]
-          : file.substring(file.lastIndexOf(".")),
-      date: date.length && date[2] ? date[2] : "null",
-      content,
-    };
-    list.push(blog);
-  });
-  res.send(list);
+  files
+    .filter((file) => file.endsWith(".md"))
+    .forEach((file, index) => {
+      const filePath = path.resolve(`./_blogs/${file}`);
+      const content = fs.readFileSync(filePath, "utf-8");
+      const date = file.match(/(\d+?-\d+?-\d+?)-(.+?)$/);
+      const blog = {
+        id: index,
+        title:
+          date && date.length && date[1]
+            ? date[1]
+            : file.substring(file.lastIndexOf(".")),
+        date: date && date.length && date[2] ? date[2] : "null",
+        content,
+      };
+      list.push(blog);
+    });
+
+  const wxs = await loadWX();
+  console.log(wxs);
+  res.send(wxs);
 });
 
 // GET /oauthcallback?code={authorizationCode}
