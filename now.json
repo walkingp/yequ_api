@@ -11,6 +11,21 @@
       "src": "/blogs",
       "dest": "/index.js",
       "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/user",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/feeddetail",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/feeds",
+      "dest": "/index.js",
+      "methods": ["GET"]
     }
   ]
 }

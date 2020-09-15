@@ -1,131 +1,124 @@
-var express = require("express");
-var Session = require("express-session");
+const express = require("express");
 const ClientId = "159894829619272";
 const ClientSecret = "R6wl7XZcQbNn2bsNt5FlChi61cLvXchA";
 const redirectionUrl = "https://api.luwan.club";
+const tulipApiUrl = "https://open.tulipsport.com";
+const session = require("express-session");
 
-const fs = require("fs");
-const path = require("path");
-const { file } = require("googleapis/build/src/apis/file");
+const rp = require("request-promise");
 
 //starting the express app
-var app = express();
+const app = express();
 
-//using session in express
 app.use(
-  Session({
-    secret: "your-random-secret-19890913007",
+  session({
+    secret: "secret", // 对session id 相关的cookie 进行签名
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false, // 是否保存未初始化的会话
+    cookie: {
+      maxAge: 1000 * 60 * 30, // 设置 session 的有效时间，单位毫秒
+    },
   })
 );
 
 //this is the base route
-app.get("/", function (req, res) {
-  var url = getAuthurl();
-  res.send(
-    `<h1>Authentication using google oAuth</h1><a href=${url}>Login</a>`
-  );
+app.get("/", async function (req, res) {
+  const { code, scope } = req.query;
+  if (code) {
+    const reqTokenUrl = getTokenUrl(code, scope);
+    const token = await rp(reqTokenUrl);
+    const [acess_token, token_type, expires_in, refresh_token] = Object.values(
+      JSON.parse(token)
+    );
+    req.session.acess_token = acess_token;
+    const data = await rp({
+      uri: `${tulipApiUrl}/api/v1/feeds`,
+      headers: {
+        Authorization: acess_token,
+      },
+      json: true,
+    });
+    res.send(data);
+    return;
+  }
+  const url = getAuthurl();
+  res.send(`<a href=${url}>Login</a>`);
 });
 
-const blogPath = path.resolve("./_blogs");
+app.get("/api/v1/user", async (req, res) => {
+  const data = await rp({
+    uri: `${tulipApiUrl}/api/v1/user`,
+    headers: {
+      Authorization: req.session.acess_token,
+    },
+  });
+  res.send(data);
+});
 
-var cheerio = require("cheerio");
-var curl = require("./curl");
-const { html } = require("cheerio");
+app.get("/api/v1/feeds", async (req, res) => {
+  const { count = 20 } = req.query;
+  let activities = [];
+  let activity_id = null;
+  while (activities.length < count) {
+    const result = await fetchFeeds(activity_id);
+    if (!result || result.length === 0) {
+      break;
+    }
+    let data = JSON.parse(result).msg;
+    activity_id = data[data.length - 1].activity_id;
+    activities.push(...data);
+  }
+  res.send(activities);
+});
 
-function fetchContent(url) {
+function fetchFeeds(activity_id) {
   return new Promise((resolve, reject) => {
-    curl.download(url, function (data) {
+    try {
+      const data = rp({
+        uri: `${tulipApiUrl}/api/v1/feeds`,
+        headers: {
+          Authorization: "rt4pNoRHLBDrxV9FVYYwkXmyaVJuXPJxUttQtV4q", //req.session.acess_token,
+        },
+        qs: {
+          activity_id,
+        },
+      });
       if (data) {
-        var $ = cheerio.load(data);
-        console.log("done");
-        const html = $("#img-content").html();
-        console.log(data);
-        resolve(html);
-      } else {
-        resolve("");
+        resolve(data);
       }
-    });
-  });
-}
-
-async function loadWX() {
-  const indexPath = path.resolve(`./_blogs/wechat_url.txt`);
-  const urls = fs.readFileSync(indexPath, "utf-8").split("\r\n");
-  console.log(urls);
-  const promises = urls.map((url) => {
-    return fetchContent(url);
-  });
-  const data = await Promise.all(promises);
-  return data;
-}
-
-app.get("/blogs", async (req, res) => {
-  const files = fs.readdirSync(blogPath);
-  const list = [];
-  files
-    .filter((file) => file.endsWith(".md"))
-    .forEach((file, index) => {
-      const filePath = path.resolve(`./_blogs/${file}`);
-      const content = fs.readFileSync(filePath, "utf-8");
-      const date = file.match(/(\d+?-\d+?-\d+?)-(.+?)$/);
-      const blog = {
-        id: index,
-        title:
-          date && date.length && date[1]
-            ? date[1]
-            : file.substring(file.lastIndexOf(".")),
-        date: date && date.length && date[2] ? date[2] : "null",
-        content,
-      };
-      list.push(blog);
-    });
-
-  res.send(list);
-});
-
-// GET /oauthcallback?code={authorizationCode}
-app.get("/oauthCallback", function (req, res) {
-  // 获取url中code的值
-  var code = req.query.code;
-  var session = req.session;
-  // 使用授权码code，向认证服务器申请令牌
-  var oauth2Client = getOAuthClient();
-  oauth2Client.getToken(code, function (err, tokens) {
-    // tokens包含一个access_token和一个可选的refresh_token
-    if (!err) {
-      oauth2Client.setCredentials(tokens);
-      session["tokens"] = tokens;
-      res.send(
-        `<h3>Login successful!</h3><a href="/details">Go to details page</a>`
-      );
-    } else {
-      res.send(`<h3>Login failed!!</h3>`);
+    } catch (err) {
+      reject(err);
     }
   });
-});
-
-/**
- * 创建OAuth客户端
- */
-function getOAuthClient() {
-  return new OAuth2(ClientId, ClientSecret, RedirectUrl);
 }
+
+app.get("/api/v1/feeddetail", async (req, res) => {
+  const { activity_id } = req.query;
+  const data = await rp({
+    uri: `${tulipApiUrl}/api/v1/feeddetail`,
+    qs: {
+      activity_id,
+    },
+    headers: {
+      Authorization: req.session.acess_token,
+    },
+  });
+  res.send(data);
+});
 /**
  * 生成向认证服务器申请认证的Url
  */
 function getAuthurl() {
-  return `http://open.tulipsport.com/oauth2/authorize?scope=read_stream&redirect_uri=${redirectionUrl}&response_type=code&client_id=${ClientId}`;
+  return `${tulipApiUrl}/oauth2/authorize?scope=read_stream&redirect_uri=${redirectionUrl}&response_type=code&client_id=${ClientId}`;
 }
 
-function getTokenUrl(code) {
-  return `http://open.tulipsport.com/oauth2/token?code=${code}&redirect_uri=${redirectionUrl}&client_id=${ClientId}&scope=read_stream&client_secret=${ClientSecret}&grant_type=authorization_code`;
+function getTokenUrl(code, scope) {
+  return `${tulipApiUrl}/oauth2/token?code=${code}&redirect_uri=${redirectionUrl}&client_id=${ClientId}&scope=${scope}&client_secret=${ClientSecret}&grant_type=authorization_code`;
 }
 
-var server = app.listen(8081, function () {
-  var host = server.address().address;
-  var port = server.address().port;
+const server = app.listen(8081, function () {
+  const host = server.address().address;
+  const port = server.address().port;
 
   console.log("应用实例，访问地址为 http://%s:%s", host, port);
 });
