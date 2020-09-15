@@ -77,7 +77,7 @@ function fetchFeeds(activity_id) {
       const data = rp({
         uri: `${tulipApiUrl}/api/v1/feeds`,
         headers: {
-          Authorization: "rt4pNoRHLBDrxV9FVYYwkXmyaVJuXPJxUttQtV4q", //req.session.acess_token,
+          Authorization: req.session.acess_token, //"rt4pNoRHLBDrxV9FVYYwkXmyaVJuXPJxUttQtV4q", //
         },
         qs: {
           activity_id,
