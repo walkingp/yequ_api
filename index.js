@@ -44,6 +44,26 @@ app.get("/", async function (req, res) {
   const url = getAuthurl();
   res.send(`<a href=${url}>Login</a>`);
 });
+app.get("/api/v1/tulip/callback", async function (req, res) {
+  const { code, scope } = req.query;
+  if (code) {
+    const reqTokenUrl = getTokenUrl(code, scope);
+    const token = await rp(reqTokenUrl);
+    const [acess_token, token_type, expires_in, refresh_token] = Object.values(
+      JSON.parse(token)
+    );
+    req.session.acess_token = acess_token;
+    const data = await rp({
+      uri: `${tulipApiUrl}/api/v1/feeds`,
+      headers: {
+        Authorization: acess_token,
+      },
+      json: true,
+    });
+    res.send(data);
+    return;
+  }
+});
 
 app.get("/api/v1/user", async (req, res) => {
   const data = await rp({
