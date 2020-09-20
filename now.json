@@ -26,6 +26,20 @@
       "src": "/api/v1/feeds",
       "dest": "/index.js",
       "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/tulip/callback",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/tulip/getToken",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/bindok",
+      "dest": "/bindok.html"
     }
   ]
 }
