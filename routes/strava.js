@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const querystring = require("querystring");
+const rp = require("request-promise");
+
 const { strava } = require("../config/config");
 
 router.get("/", async function (req, res) {
@@ -16,7 +18,7 @@ router.get("/", async function (req, res) {
   res.send(`<a href=${url}>Authorize Strava App</a>`);
 });
 
-app.get("/callback", async function (req, res) {
+router.get("/callback", async function (req, res) {
   const { code } = req.query;
   const params = {
     code,
@@ -43,7 +45,7 @@ app.get("/callback", async function (req, res) {
   res.send(data);
 });
 
-app.get("/refreshToken", async function (req, res) {
+router.get("/refreshToken", async function (req, res) {
   const { refresh_token } = req.query;
   const { client_id, client_secret } = strava;
   const params = {
@@ -61,7 +63,7 @@ app.get("/refreshToken", async function (req, res) {
   });
 });
 
-app.get("/activities", async function (req, res) {
+router.get("/activities", async function (req, res) {
   const { token } = req.query;
   const data = await rp({
     uri: `${strava.apiUr}/user`,
@@ -72,7 +74,7 @@ app.get("/activities", async function (req, res) {
   res.send(data);
 });
 
-app.get("/getToken", async function (req, res) {
+router.get("/getToken", async function (req, res) {
   res.send({
     strava_token: req.session.strava_token,
     refresh_token: req.session.refresh_token,

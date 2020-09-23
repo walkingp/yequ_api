@@ -3,17 +3,7 @@
   "builds": [{ "src": "index.js", "use": "@now/node-server" }],
   "routes": [
     {
-      "src": "/tulip",
-      "dest": "/index.js",
-      "methods": ["GET"]
-    },
-    {
-      "src": "/strava",
-      "dest": "/index.js",
-      "methods": ["GET"]
-    },
-    {
-      "src": "/blogs",
+      "src": "/api/v1/tulip",
       "dest": "/index.js",
       "methods": ["GET"]
     },
@@ -43,7 +33,7 @@
       "methods": ["GET"]
     },
     {
-      "src": "/strava",
+      "src": "/api/v1/strava",
       "dest": "/index.js",
       "methods": ["GET"]
     },
@@ -66,10 +56,6 @@
       "src": "/api/v1/strava/activities",
       "dest": "/index.js",
       "methods": ["GET"]
-    },
-    {
-      "src": "/bindok",
-      "dest": "/bindok.html"
     }
   ]
 }

@@ -2,6 +2,8 @@ const express = require("express");
 const { tulip } = require("../config/config");
 const router = express.Router();
 const querystring = require("querystring");
+const fs = require("fs");
+const rp = require("request-promise");
 
 router.get("/", async function (req, res) {
   const { redirect_uri, client_id, client_secret } = tulip;
