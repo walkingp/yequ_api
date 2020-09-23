@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "nodemon ./index.js",
     "start": "node ./index.js",
+    "git": "git pull && git add . && git commit -m",
+    "postgit": "git push",
     "deploy": "now --prod"
   },
   "dependencies": {

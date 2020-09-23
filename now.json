@@ -53,7 +53,7 @@
       "methods": ["GET"]
     },
     {
-      "src": "/api/v1/strava/activities",
+      "src": "/api/v1/strava/athlete",
       "dest": "/index.js",
       "methods": ["GET"]
     }

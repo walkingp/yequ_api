@@ -3,6 +3,7 @@ const { tulip } = require("../config/config");
 const router = express.Router();
 const querystring = require("querystring");
 const fs = require("fs");
+const path = require("path");
 const rp = require("request-promise");
 
 router.get("/", async function (req, res) {
@@ -20,7 +21,7 @@ router.get("/", async function (req, res) {
 
 router.get("/callback", async function (req, res) {
   const { code, scope } = req.query;
-  const { redirect_uri, client_id, client_secret } = tulip;
+  const { redirect_uri, apiUrl, client_id, client_secret } = tulip;
   const params = {
     code,
     redirect_uri,
@@ -30,10 +31,14 @@ router.get("/callback", async function (req, res) {
     grant_type: "authorization_code",
   };
   const qs = querystring.stringify(params);
-  const url = `${tulipApiUrl}/oauth2/token?${qs}`;
+  const url = `${apiUrl}/oauth2/token?${qs}`;
   const tulip_token = await rp(url);
-  req.session.tulip_token = tulip_token;
-  const data = fs.readFileSync(__dirname + "/bindok.html");
+  const [acess_token, token_type, expires_in, refresh_token] = Object.values(
+    JSON.parse(tulip_token)
+  );
+  req.session.tulip_token = acess_token;
+  const filePath = path.resolve(__dirname, "./../assets/tulip_bindok.html");
+  const data = fs.readFileSync(filePath);
   const html = data
     .toString()
     .replace("$$$$", JSON.stringify(tulip_token).replace(/"/g, "'"));
