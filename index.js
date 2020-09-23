@@ -5,6 +5,8 @@ const redirectionUrl = "https://api.luwan.club/api/v1/tulip/callback";
 const tulipApiUrl = "https://open.tulipsport.com";
 const session = require("express-session");
 
+const stravaApiUrl = "https://www.strava.com/api/v3";
+
 const rp = require("request-promise");
 
 const fs = require("fs");
@@ -24,45 +26,96 @@ app.use(
 );
 
 //this is the base route
-app.get("/", async function (req, res) {
+app.get("/tulip", async function (req, res) {
   const url = getAuthurl();
-  res.send(`<a href=${url}>Login</a>`);
+  res.send(`<a href=${url}>Authorize Tulip App</a>`);
 });
 app.get("/api/v1/tulip/callback", async function (req, res) {
   const { code, scope } = req.query;
   if (code) {
     const reqTokenUrl = getTokenUrl(code, scope);
-    const token = await rp(reqTokenUrl);
-    req.session.token = token;
-    global.token = token;
+    const tulip_token = await rp(reqTokenUrl);
+    req.session.tulip_token = tulip_token;
     // res.sendFile(__dirname + "/bindok.html");
     const data = fs.readFileSync(__dirname + "/bindok.html");
     const html = data
       .toString()
-      .replace("$$$$", JSON.stringify(token).replace(/"/g, "'"));
+      .replace("$$$$", JSON.stringify(tulip_token).replace(/"/g, "'"));
     res.set("Content-Type", "text/html");
     res.send(html);
   }
 });
 
-app.get("/api/v1/tulip/getToken", async function (req, res) {
-  res.send(global.token);
+app.get("/strava", (req, res) => {
+  const url = `http://www.strava.com/oauth/authorize?client_id=22580&response_type=code&redirect_uri=https://api.luwan.club/api/v1/strava/callback&approval_prompt=force&scope=read`;
+  res.send(`<a href=${url}>Authorize Strava App</a>`);
 });
 
-app.get("/api/v1/user", async (req, res) => {
+app.get("/api/v1/strava/callback", async function (req, res) {
+  const { code } = req.query;
+  const tokenUrl = `${stravaApiUrl}/oauth/token?client_id=22580&client_secret=427267881c103f35f75d833992a92fc50226c14d&code=${code}&grant_type=authorization_code`;
+  res.send(tokenUrl);
+  return;
+  const data = await rp({
+    uri: tokenUrl,
+  });
+  const {
+    token_type,
+    expires_at,
+    expires_in,
+    refresh_token,
+    access_token,
+  } = data;
+  req.session.refresh_token = refresh_token;
+  req.session.strava_token = access_token;
+  res.send(data);
+});
+
+app.get("/api/v1/strava/getToken", async function (req, res) {
+  res.send(req.session.strava_token);
+});
+
+app.get("/api/v1/strava/refreshToken", async function (req, res) {
+  const { refresh_token } = req.query;
+  const tokenUrl = `${stravaApiUrl}/oauth/token?client_id=22580&client_secret=427267881c103f35f75d833992a92fc50226c14d&refresh_token=${
+    refresh_token || req.session.refresh_token
+  }&grant_type=refresh_token`;
+  res.send(tokenUrl);
+  return;
+  const data = await rp({
+    uri: tokenUrl,
+  });
+});
+
+app.get("/api/v1/strava/activities", async function (req, res) {
   const { token } = req.query;
   const data = await rp({
     uri: `${tulipApiUrl}/api/v1/user`,
     headers: {
-      Authorization: req.session.acess_token || token,
+      Authorization: req.session.strava_token || token,
     },
   });
   res.send(data);
 });
 
-app.get("/api/v1/feeds", async (req, res) => {
+app.get("/api/v1/tulip/getToken", async function (req, res) {
+  res.send(req.session.tulip_token);
+});
+
+app.get("/api/v1/tulip/user", async (req, res) => {
+  const { token } = req.query;
+  const data = await rp({
+    uri: `${tulipApiUrl}/api/v1/user`,
+    headers: {
+      Authorization: req.session.tulip_token || token,
+    },
+  });
+  res.send(data);
+});
+
+app.get("/api/v1/tulip/feeds", async (req, res) => {
   let { token } = req.query;
-  token = token || req.session.acess_token;
+  token = token || req.session.tulip_token;
   const result = await fetchFeeds(token);
   if (!result || result.length === 0) {
     return;
@@ -89,7 +142,7 @@ function fetchFeeds(token) {
   });
 }
 
-app.get("/api/v1/feeddetail", async (req, res) => {
+app.get("/api/v1/tulip/feeddetail", async (req, res) => {
   let { token } = req.query;
   const { activity_id } = req.query;
   const data = await rp({
@@ -98,7 +151,7 @@ app.get("/api/v1/feeddetail", async (req, res) => {
       activity_id,
     },
     headers: {
-      Authorization: req.session.acess_token || token,
+      Authorization: req.session.tulip_token || token,
     },
   });
   res.send(data);
@@ -117,8 +170,6 @@ function getTokenUrl(code, scope) {
 const server = app.listen(8081, function () {
   const host = server.address().address;
   const port = server.address().port;
-
-  global.token = {};
 
   console.log("应用实例，访问地址为 http://%s:%s", host, port);
 });

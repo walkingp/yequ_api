@@ -3,7 +3,12 @@
   "builds": [{ "src": "index.js", "use": "@now/node-server" }],
   "routes": [
     {
-      "src": "/",
+      "src": "/tulip",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/strava",
       "dest": "/index.js",
       "methods": ["GET"]
     },
@@ -13,17 +18,17 @@
       "methods": ["GET"]
     },
     {
-      "src": "/api/v1/user",
+      "src": "/api/v1/tulip/user",
       "dest": "/index.js",
       "methods": ["GET"]
     },
     {
-      "src": "/api/v1/feeddetail",
+      "src": "/api/v1/tulip/feeddetail",
       "dest": "/index.js",
       "methods": ["GET"]
     },
     {
-      "src": "/api/v1/feeds",
+      "src": "/api/v1/tulip/feeds",
       "dest": "/index.js",
       "methods": ["GET"]
     },
@@ -34,6 +39,31 @@
     },
     {
       "src": "/api/v1/tulip/getToken",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/strava",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/strava/callback",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/strava/getToken",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/strava/refreshToken",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/strava/activities",
       "dest": "/index.js",
       "methods": ["GET"]
     },
