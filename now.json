@@ -61,6 +61,16 @@
       "src": "/api/v1/strava/clubs/(?<id>\\d*?)/activities",
       "dest": "/index.js",
       "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/spider",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/spider/p",
+      "dest": "/index.js",
+      "methods": ["GET"]
     }
   ]
 }
