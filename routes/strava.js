@@ -87,5 +87,27 @@ router.get("/athlete", async function (req, res) {
   });
   res.send(data);
 });
+// https://api.luwan.club/api/v1/strava/clubs/127675/activities
+// https://api.luwan.club/api/v1/strava/clubs/127675/activities?page=1&per_page=100
+router.get("/clubs/:id/activities", async function (req, res) {
+  const { token } = req.query;
+  const { access_token, token_type } = req.session.strava_token;
+
+  const { id } = req.params;
+  const { page, per_page } = req.query;
+
+  const data = await rp({
+    uri: `${strava.apiUrl}/clubs/${id}/activities`,
+    headers: {
+      Authorization: token_type + " " + access_token || token,
+    },
+    qs: {
+      page,
+      per_page,
+    },
+    json: true,
+  });
+  res.send(data);
+});
 
 module.exports = router;

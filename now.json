@@ -56,6 +56,11 @@
       "src": "/api/v1/strava/athlete",
       "dest": "/index.js",
       "methods": ["GET"]
+    },
+    {
+      "src": "/api/v1/strava/clubs/(?<id>\\d*?)/activities",
+      "dest": "/index.js",
+      "methods": ["GET"]
     }
   ]
 }
