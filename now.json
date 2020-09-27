@@ -38,8 +38,9 @@
       "methods": ["GET"]
     },
     {
-      "src": "/bindok",
-      "dest": "/bindok.html"
+      "src": "/zhN0lFbMKj.txt",
+      "dest": "/index.js",
+      "methods": ["GET"]
     }
   ]
 }

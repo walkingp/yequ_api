@@ -23,6 +23,8 @@ app.use(
   })
 );
 
+app.use(express.static(__dirname));
+
 //this is the base route
 app.get("/", async function (req, res) {
   const url = getAuthurl();
