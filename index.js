@@ -1,24 +1,14 @@
 const express = require("express");
-const ClientId = "159894829619272";
-const ClientSecret = "R6wl7XZcQbNn2bsNt5FlChi61cLvXchA";
-const redirectionUrl = "https://api.luwan.club/api/v1/tulip/callback";
-const tulipApiUrl = "https://open.tulipsport.com";
 const session = require("express-session");
-
-const rp = require("request-promise");
-
-const fs = require("fs");
-
-//starting the express app
 const app = express();
 
 app.use(
   session({
-    secret: "secret", // 对session id 相关的cookie 进行签名
+    secret: "secret",
     resave: false,
-    saveUninitialized: false, // 是否保存未初始化的会话
+    saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 30, // 设置 session 的有效时间，单位毫秒
+      maxAge: 1000 * 60 * 30,
     },
   })
 );
@@ -72,55 +62,17 @@ app.get("/api/v1/feeds", async (req, res) => {
   const activities = JSON.parse(result).msg;
   res.send(activities);
 });
+const tulip = require("./routes/tulip");
+const strava = require("./routes/strava");
+const spider = require("./routes/spider");
 
-function fetchFeeds(token) {
-  return new Promise((resolve, reject) => {
-    try {
-      const data = rp({
-        uri: `${tulipApiUrl}/api/v1/feeds?start_time=2019-05-20&end_time=2020-09-20`,
-        headers: {
-          Authorization: token,
-        },
-      });
-      if (data) {
-        resolve(data);
-      }
-    } catch (err) {
-      reject(err);
-    }
-  });
-}
+app.use("/api/v1/tulip", tulip);
+app.use("/api/v1/strava", strava);
+app.use("/api/v1/spider", spider);
 
-app.get("/api/v1/feeddetail", async (req, res) => {
-  let { token } = req.query;
-  const { activity_id } = req.query;
-  const data = await rp({
-    uri: `${tulipApiUrl}/api/v1/feeddetail`,
-    qs: {
-      activity_id,
-    },
-    headers: {
-      Authorization: req.session.acess_token || token,
-    },
-  });
-  res.send(data);
-});
-/**
- * 生成向认证服务器申请认证的Url
- */
-function getAuthurl() {
-  return `${tulipApiUrl}/oauth2/authorize?scope=read_stream&redirect_uri=${redirectionUrl}&response_type=code&client_id=${ClientId}`;
-}
-
-function getTokenUrl(code, scope) {
-  return `${tulipApiUrl}/oauth2/token?code=${code}&redirect_uri=${redirectionUrl}&client_id=${ClientId}&scope=${scope}&client_secret=${ClientSecret}&grant_type=authorization_code`;
-}
-
-const server = app.listen(8081, function () {
+const server = app.listen(8081, "0.0.0.0", function () {
   const host = server.address().address;
   const port = server.address().port;
 
-  global.token = {};
-
-  console.log("应用实例，访问地址为 http://%s:%s", host, port);
+  console.log("Server started, please open http://%s:%s", host, port);
 });

@@ -1,0 +1,87 @@
+斛<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover"
+    />
+    <title>绑定成功</title>
+    <style>
+      body,
+      html,
+      div {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      div {
+        margin-bottom: 20px;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 30px;
+      }
+      .succ {
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        background-color: #1aad19;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .succ::after {
+        content: "";
+        width: 40px;
+        height: 20px;
+        display: inline-block;
+        border: solid white;
+        border-width: 0 0 5px 5px;
+        transform: translateY(-5px) rotate(-45deg);
+      }
+      .title {
+        font-size: 20rpx;
+        font-weight: bold;
+      }
+      .desc {
+        font-size: 14px;
+        color: #999;
+      }
+
+      .button {
+        cursor: pointer;
+        background-color: #1aad19;
+        color: white;
+        text-align: center;
+        height: 46px;
+        line-height: 46px;
+        border-radius: 5px;
+        width: 100%;
+      }
+    </style>
+    <script
+      type="text/javascript"
+      src="https://res.wx.qq.com/open/js/jweixin-1.3.0.js"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="succ"></div>
+      <div class="title">STRAVA绑定成功</div>
+      <div class="desc">
+        从现在开始，你的最新数据将会直接同步到卢湾跑团小程序
+      </div>
+      <input type="hidden" value="$$$$" />
+      <div
+        class="button"
+        onclick="wx.miniProgram.redirectTo({url: `/pages/activity/tulip/tulip?bind=true&token=${document.querySelector('input[type=hidden]').value}`})"
+      >
+        返回到小程序
+      </div>
+    </div>
+  </body>
+</html>
