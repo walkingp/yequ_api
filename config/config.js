@@ -11,4 +11,8 @@ module.exports = {
     redirect_uri: "https://api.luwan.club/api/v1/strava/callback",
     apiUrl: "https://www.strava.com/api/v3",
   },
+  wechat: {
+    appId: "wx9ae98090dea1cd72",
+    appSecret: "d04375d86a3cd5ea056e8f836fb711a1",
+  },
 };

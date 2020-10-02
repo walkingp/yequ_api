@@ -73,7 +73,27 @@
       "methods": ["GET"]
     },
     {
+      "src": "/api/v1/wechat",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
       "src": "/zhN0lFbMKj.txt",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/MP_verify_IB2grwy9xvwHvhvC.txt",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/MP_verify_6DSNbIqoHKLF6vnV.txt",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/tulip_bindok.html",
       "dest": "/index.js",
       "methods": ["GET"]
     }
