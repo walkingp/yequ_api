@@ -80,10 +80,7 @@
         从现在开始，你的最新数据将会直接同步到卢湾跑团小程序
       </div>
       <input type="hidden" value="$$$$" />
-      <div
-        class="button"
-        onclick="wx.miniProgram.redirectTo({url: `/pages/activity/tulip/tulip?bind=true&token=${document.querySelector('input[type=hidden]').value}`})"
-      >
+      <div class="button" onclick="wx.miniProgram.navigateBack()">
         返回到小程序
       </div>
       <div class="tip">如无法返回，请点击左上角返回按钮手动返回</div>

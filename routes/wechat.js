@@ -1,5 +1,5 @@
 const express = require("express");
-const { wechat } = require("../config/config");
+const { wechat, weapp } = require("../config/config");
 const router = express.Router();
 const rp = require("request-promise");
 

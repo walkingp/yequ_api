@@ -93,6 +93,11 @@
       "methods": ["GET"]
     },
     {
+      "src": "/.well-known/pki-validation/fileauth.txt",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
       "src": "/tulip_bindok.html",
       "dest": "/index.js",
       "methods": ["GET"]

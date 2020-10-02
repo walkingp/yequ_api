@@ -1,10 +1,14 @@
 const express = require("express");
-const { tulip } = require("../config/config");
+const { tulip, weapp } = require("../config/config");
 const router = express.Router();
 const querystring = require("querystring");
 const fs = require("fs");
 const path = require("path");
 const rp = require("request-promise");
+
+const tcb = require("@cloudbase/node-sdk");
+const app = tcb.init(weapp);
+const db = app.database();
 
 router.get("/", async function (req, res) {
   const { redirect_uri, client_id, client_secret } = tulip;
@@ -20,7 +24,8 @@ router.get("/", async function (req, res) {
 });
 
 router.get("/callback", async function (req, res) {
-  const { code, scope } = req.query;
+  const { code, scope, userId } = req.query;
+
   const { redirect_uri, apiUrl, client_id, client_secret } = tulip;
   const params = {
     code,
@@ -33,10 +38,15 @@ router.get("/callback", async function (req, res) {
   const qs = querystring.stringify(params);
   const url = `${apiUrl}/oauth2/token?${qs}`;
   const tulip_token = await rp(url);
-  const [acess_token, token_type, expires_in, refresh_token] = Object.values(
+  const [access_token, token_type, expires_in, refresh_token] = Object.values(
     JSON.parse(tulip_token)
   );
-  req.session.tulip_token = acess_token;
+
+  await db.collection("users").doc(userId).update({
+    access_token,
+  });
+
+  req.session.tulip_token = access_token;
   const filePath = path.resolve(__dirname, "./../assets/tulip_bindok.html");
   const data = fs.readFileSync(filePath);
   const html = data

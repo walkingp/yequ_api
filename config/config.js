@@ -15,4 +15,9 @@ module.exports = {
     appId: "wx9ae98090dea1cd72",
     appSecret: "d04375d86a3cd5ea056e8f836fb711a1",
   },
+  weapp: {
+    secretId: "AKIDNmlHZEN0pUvK2VduqjOo7D4g9WeXwi7H",
+    secretKey: "jFW1RGqAFVfbIrQn36MVTLxYv50TqyrW",
+    env: "huate-8d8352",
+  },
 };

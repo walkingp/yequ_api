@@ -18,8 +18,7 @@ app.use(express.static(__dirname));
 
 //this is the base route
 app.get("/", async function (req, res) {
-  const url = getAuthurl();
-  res.send(`<a href=${url}>Login</a>`);
+  res.send(`hello`);
 });
 app.get("/tulip_bindok.html", async function (req, res) {
   const data = fs.readFileSync(__dirname + "/assets/tulip_bindok.html");
@@ -27,6 +26,10 @@ app.get("/tulip_bindok.html", async function (req, res) {
   res.set("Content-Type", "text/html");
   res.send(html);
 });
+app.get("/.well-known/pki-validation/fileauth.txt", async function (req, res) {
+  res.send("202010011352470e6j0043sgasfqeb8s8z2qifzm5pxauvb95p2371jgm7zr7tje");
+});
+
 const tulip = require("./routes/tulip");
 const strava = require("./routes/strava");
 const spider = require("./routes/spider");
