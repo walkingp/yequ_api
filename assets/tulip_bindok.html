@@ -78,21 +78,5 @@
       type="text/javascript"
       src="https://res2.wx.qq.com/open/js/jweixin-1.6.0.js"
     ></script>
-    <script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script>
-    <script>
-      var vConsole = new VConsole();
-      console.log("Hello world");
-      window.onload = function () {
-        document
-          .querySelector("#button")
-          .addEventListener("click", function () {
-            wx.miniProgram.redirectTo({
-              url: `/pages/activity/tulip/tulip?bind=true&token=${
-                document.querySelector("input[type=hidden]").value
-              }`,
-            });
-          });
-      };
-    </script>
   </body>
 </html>
