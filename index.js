@@ -29,9 +29,9 @@ app.get("/tulip_bindok.html", async function (req, res) {
 app.get("/.well-known/pki-validation/fileauth.txt", async function (req, res) {
   res.send("202010011352470e6j0043sgasfqeb8s8z2qifzm5pxauvb95p2371jgm7zr7tje");
 });
-app.get("/mHWu41fGmo.txt", async function (req, res) {
-  res.send("27a58a497641148b3232d9006647f5ca");
-});
+// app.get("/mHWu41fGmo.txt", async function (req, res) {
+//   res.send("27a58a497641148b3232d9006647f5ca");
+// });
 
 const tulip = require("./routes/tulip");
 const strava = require("./routes/strava");

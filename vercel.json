@@ -1,5 +1,8 @@
 {
-  "builds": [{ "src": "*.js", "use": "@vercel/node" }],
+  "builds": [
+    { "src": "*.txt", "use": "@vercel/static" },
+    { "src": "*.js", "use": "@vercel/node" }
+  ],
   "routes": [
     {
       "src": "/api/v1/tulip",
@@ -88,6 +91,11 @@
     },
     {
       "src": "/MP_verify_6DSNbIqoHKLF6vnV.txt",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/mHWu41fGmo.txt",
       "dest": "/index.js",
       "methods": ["GET"]
     },
