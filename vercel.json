@@ -1,9 +1,5 @@
 {
-  "builds": [
-    { "src": "*.txt", "use": "@vercel/static" },
-    { "src": "*.html", "use": "@vercel/static" },
-    { "src": "*.js", "use": "@vercel/node" }
-  ],
+  "builds": [{ "src": "*.js", "use": "@vercel/node" }],
   "routes": [
     {
       "src": "/api/v1/tulip",
