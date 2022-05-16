@@ -80,26 +80,6 @@
       "methods": ["GET"]
     },
     {
-      "src": "/zhN0lFbMKj.txt",
-      "dest": "/index.js",
-      "methods": ["GET"]
-    },
-    {
-      "src": "/MP_verify_IB2grwy9xvwHvhvC.txt",
-      "dest": "/index.js",
-      "methods": ["GET"]
-    },
-    {
-      "src": "/MP_verify_6DSNbIqoHKLF6vnV.txt",
-      "dest": "/index.js",
-      "methods": ["GET"]
-    },
-    {
-      "src": "/mHWu41fGmo.txt",
-      "dest": "/index.js",
-      "methods": ["GET"]
-    },
-    {
       "src": "/.well-known/pki-validation/fileauth.txt",
       "dest": "/index.js",
       "methods": ["GET"]
