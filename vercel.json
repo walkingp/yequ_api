@@ -92,11 +92,6 @@
       "methods": ["GET"]
     },
     {
-      "src": "/mHWu41fGmo.txt",
-      "dest": "/index.js",
-      "methods": ["GET"]
-    },
-    {
       "src": "/.well-known/pki-validation/fileauth.txt",
       "dest": "/index.js",
       "methods": ["GET"]
