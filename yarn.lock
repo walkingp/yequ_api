@@ -83,10 +83,35 @@
   resolved "https://registry.yarnpkg.com/@vercel/build-utils/-/build-utils-2.5.1.tgz#2f687c2d82464dd85e0ed8130bc01e5dac9b11a4"
   integrity sha512-689ov8fGrgVnLwPbJUvgUKdSTseZiOMobR4XoZjmSmeF8+gaOpycsdGuVFzNtdFneUiQWO/k5AkY5diZj8fNgg==
 
+"@vercel/build-utils@3.0.1":
+  version "3.0.1"
+  resolved "https://registry.npmmirror.com/@vercel/build-utils/-/build-utils-3.0.1.tgz#6758a95d230e7d1b95ca7b73bba07e6d1f534a38"
+  integrity sha512-uW61uzc/la5uQNaTL8QJThSQkrbMwKFt7JUCXwyvyW4PfdN6GgYMYEMgTIXrG7Dows3pSOD7A9K0Hl5z8KvOzQ==
+
 "@vercel/go@1.1.6":
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/@vercel/go/-/go-1.1.6.tgz#45ac3a6bd98a15b8bf1028b8c141a51fd971ac15"
   integrity sha512-swA2crS08fkPmw4UkR9yjmoL8FOCzuNHLFDqj8oM1V9ni610ibJ7Xk57jI8uyS7bTecQVh8VUxihb+SF0GT+aw==
+
+"@vercel/go@1.4.2":
+  version "1.4.2"
+  resolved "https://registry.npmmirror.com/@vercel/go/-/go-1.4.2.tgz#4c58a55a6b0f825951d8d0d2b107518a24bf909e"
+  integrity sha512-LUro28q/FWX6T2bQY244X7la8v4ZQs6CGBhJB0qUFU5Ft8f32sViDVkomd7Q/PuiJxTh6e/W8RYGrl0kApKDkg==
+
+"@vercel/node-bridge@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/@vercel/node-bridge/-/node-bridge-2.2.1.tgz#539b1ba65e3f88f01b71faf1b9dd7758c52a3d74"
+  integrity sha512-GJdBio0nKyxvFwfLcj6CMp2s22d5V6K9tmhmHkQcaiFwdKWK/Pa7jngiO84a09fvX+DFaOtpalJuxQa5LAJ9xQ==
+
+"@vercel/node@1.15.2":
+  version "1.15.2"
+  resolved "https://registry.npmmirror.com/@vercel/node/-/node-1.15.2.tgz#00886055714187b24f334ab5a1229698b451bc40"
+  integrity sha512-paHKi2u75/G5g6My/BTXc9uQlMnUxEHSedQepWEzb6d0VNclGAMbIb8KMjBP8/eZ//5qKPuVM3hgHjC3+pShkw==
+  dependencies:
+    "@types/node" "*"
+    "@vercel/node-bridge" "2.2.1"
+    ts-node "8.9.1"
+    typescript "4.3.4"
 
 "@vercel/node@1.8.1":
   version "1.8.1"
@@ -102,10 +127,20 @@
   resolved "https://registry.yarnpkg.com/@vercel/python/-/python-1.2.3.tgz#23ebb71c753fe1cc75fe186c89fc0af04c950191"
   integrity sha512-DJRvL6bmt4m0xrkzSKUbP8mK57YSDdTBWoo0JYyXq/o2golQrv/wQTalbNchd4P8NhVL3mZuk/1JNYuv5u1rKQ==
 
+"@vercel/python@2.3.2":
+  version "2.3.2"
+  resolved "https://registry.npmmirror.com/@vercel/python/-/python-2.3.2.tgz#158f4cfaa61b1c5cfe9aae5157a7f036dd0ecbb1"
+  integrity sha512-qLNyiNf9bauz/GoY/GaOp/GjCx2olJQ3Uyd3EaP99aQC2jx9uCtofMXh4s9JAYgG8+qOr3M7AEhFbNjJza7wrQ==
+
 "@vercel/ruby@1.2.4":
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@vercel/ruby/-/ruby-1.2.4.tgz#60e0a91d7a1a730a7ecdbc6e095acb95f28f24be"
   integrity sha512-g19vrrmJ4MTJCRB/bvx8DahIsml1iPn7wsdHf5k3QVN6lT0dlDILSBwpERC4hqzndimaApsmWOfjYtY9/L6+tQ==
+
+"@vercel/ruby@1.3.5":
+  version "1.3.5"
+  resolved "https://registry.npmmirror.com/@vercel/ruby/-/ruby-1.3.5.tgz#7b6e7170e3b3d86e83456633af1b0d5c5d0d39a3"
+  integrity sha512-GCylepOL4seK8ox/Q5VM4fCkTLK5dzXy1/iI6IG/6DwgrKgbP/Ojy08YeUKaBcPLXLJgZ0nx+NBIbqo5L5malw==
 
 abbrev@1:
   version "1.1.1"
@@ -2102,6 +2137,11 @@ typescript@3.9.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.3.tgz#d3ac8883a97c26139e42df5e93eeece33d610b8a"
   integrity sha512-D/wqnB2xzNFIcoBG9FG8cXRDjiqSTbG2wd8DMZeQyJlP1vfTkIxH4GKveWaEBYySKIg+USu+E+EDIR47SqnaMQ==
 
+typescript@4.3.4:
+  version "4.3.4"
+  resolved "https://registry.npmmirror.com/typescript/-/typescript-4.3.4.tgz#3f85b986945bcf31071decdd96cf8bfa65f9dcbc"
+  integrity sha512-uauPG7XZn9F/mo+7MrsRjyvbxFpzemRjKEZXS4AK83oP2KKOJPvb+9cO/gmnv8arWZvhnjVOXz7B49m1l0e9Ew==
+
 uid-safe@~2.1.5:
   version "2.1.5"
   resolved "https://registry.npm.taobao.org/uid-safe/download/uid-safe-2.1.5.tgz#2b3d5c7240e8fc2e58f8aa269e5ee49c0857bd3a"
@@ -2215,6 +2255,18 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
+
+vercel@^24.2.3:
+  version "24.2.3"
+  resolved "https://registry.npmmirror.com/vercel/-/vercel-24.2.3.tgz#6a065d7486755f24717d23e47e235ab0b9342021"
+  integrity sha512-ezriIQotWuSxZ7aqcEuB1+lKi0MHp8/BEvvaOmzf27fP7+mLVBVEdPc8bzlpw548wk/l8wBRhvRDzc1kpuDnRQ==
+  dependencies:
+    "@vercel/build-utils" "3.0.1"
+    "@vercel/go" "1.4.2"
+    "@vercel/node" "1.15.2"
+    "@vercel/python" "2.3.2"
+    "@vercel/ruby" "1.3.5"
+    update-notifier "4.1.0"
 
 verror@1.10.0:
   version "1.10.0"

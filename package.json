@@ -23,6 +23,7 @@
     "request-promise": "^4.2.6"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "vercel": "^24.2.3"
   }
 }
