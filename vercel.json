@@ -30,6 +30,11 @@
       "methods": ["GET"]
     },
     {
+      "src": "/api/v1/tulip/yequ_callback",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
       "src": "/api/v1/tulip/getToken",
       "dest": "/index.js",
       "methods": ["GET"]

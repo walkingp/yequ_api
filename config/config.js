@@ -1,8 +1,8 @@
 module.exports = {
   tulip: {
-    client_id: "159894829619272",
-    client_secret: "R6wl7XZcQbNn2bsNt5FlChi61cLvXchA",
-    redirect_uri: "https://api.xterra.club/api/v1/tulip/callback",
+    client_id: "165312432932382",
+    client_secret: "oHzl1zOBc82iNJeYMLXumR4jGipL56Wc",
+    redirect_uri: "https://api.xterra.club/api/v1/tulip/yequ_callback",
     apiUrl: "https://open.tulipsport.com",
   },
   strava: {

@@ -18,7 +18,7 @@ app.use(express.static(__dirname));
 
 //this is the base route
 app.get("/", async function (req, res) {
-  res.send(`View more on https://luwan.vercel.app/`);
+  res.send(`View more on https://ningbo100.cn/`);
 });
 app.get("/tulip_bindok.html", async function (req, res) {
   const data = fs.readFileSync(__dirname + "/assets/tulip_bindok.html");

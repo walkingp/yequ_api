@@ -23,7 +23,7 @@ router.get("/", async function (req, res) {
   res.send(`<a href=${url}>Authorize Tulip App</a>`);
 });
 
-router.get("/callback", async function (req, res) {
+router.get("/yequ_callback", async function (req, res) {
   const { code, scope, userId } = req.query;
 
   const { redirect_uri, apiUrl, client_id, client_secret } = tulip;
@@ -38,6 +38,7 @@ router.get("/callback", async function (req, res) {
   const qs = querystring.stringify(params);
   const url = `${apiUrl}/oauth2/token?${qs}`;
   const tulip_token = await rp(url);
+  console.log("tulip_token", tulip_token);
   const [access_token, token_type, expires_in, refresh_token] = Object.values(
     JSON.parse(tulip_token)
   );
