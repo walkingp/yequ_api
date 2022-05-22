@@ -23,7 +23,7 @@ router.get("/", async function (req, res) {
   res.send(`<a href=${url}>Authorize Tulip App</a>`);
 });
 
-router.get("/yequ_callback", async function (req, res) {
+router.get("/callback", async function (req, res) {
   const { code, scope, userId } = req.query;
 
   const { redirect_uri, apiUrl, client_id, client_secret } = tulip;
